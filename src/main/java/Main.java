@@ -2,13 +2,14 @@ import Commands.*;
 import Parser.ParsedCommand;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class Main {
     private static Map<String, Command> supportedCommands;
     public static void main(String[] args) throws Exception {
         String path = System.getenv("PATH");
-        List<String> pathDirectories = Arrays.asList(path.split(":"));
-        System.out.println(pathDirectories);
+        List<String> pathDirectories = Arrays.stream(path.split(":")).collect(Collectors.toList());
+//        System.out.println(pathDirectories);
         supportedCommands = new HashMap<>();
         supportedCommands.put("exit", new ExitCommand());
         supportedCommands.put("echo", new EchoCommand());
