@@ -8,13 +8,11 @@ public class Main {
     public static void main(String[] args) throws Exception {
         String path = System.getenv("PATH");
         List<String> pathDirectories = Arrays.asList(path.split(":"));
-
+        System.out.println(pathDirectories);
         supportedCommands = new HashMap<>();
         supportedCommands.put("exit", new ExitCommand());
         supportedCommands.put("echo", new EchoCommand());
         supportedCommands.put("type", new TypeCommand(supportedCommands, pathDirectories));
-
-
 
         while(true){
             ParsedCommand command = readCommand();
