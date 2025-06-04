@@ -2,12 +2,21 @@ package Commands;
 
 import Parser.ParsedCommand;
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 public class TypeCommand implements Command {
     private Map<String, Command> commands;
+    List<String> pathDirectories;
     public TypeCommand(Map<String, Command> supportedCommands) {
         commands = supportedCommands;
+    }
+
+    public TypeCommand(Map<String, Command> supportedCommands, List<String> pathDirectories) {
+        commands = supportedCommands;
+        pathDirectories = pathDirectories;
     }
 
     @Override
@@ -15,9 +24,31 @@ public class TypeCommand implements Command {
         for(String command: parsedCommand.args){
             if(commands.containsKey(command)){
                 commands.get(command).type();
-            }else{
-                System.out.println(command+": not found");
+            }else {
+                if(!checkInPath(command)){
+                    System.out.println(command+": not found");
+                }
             }
+        }
+    }
+
+    private boolean checkInPath(String command) {
+        List<String> commandLocations = new ArrayList<>();
+
+        for (String dir : pathDirectories) {
+            File lsFile = new File(dir, command); // Check for "ls" in this directory
+            if (lsFile.exists() && lsFile.canExecute()) {
+                commandLocations.add(lsFile.getAbsolutePath());
+            }
+        }
+
+        if (!commandLocations.isEmpty()) {
+            for (String location : commandLocations) {
+                System.out.println(command+" is "+location);
+            }
+            return true;
+        } else {
+            return false;
         }
     }
 

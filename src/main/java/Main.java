@@ -1,18 +1,20 @@
 import Commands.*;
 import Parser.ParsedCommand;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Scanner;
+import java.util.*;
 
 public class Main {
     private static Map<String, Command> supportedCommands;
     public static void main(String[] args) throws Exception {
+        String path = System.getenv("PATH");
+        List<String> pathDirectories = Arrays.asList(path.split(":"));
+
         supportedCommands = new HashMap<>();
         supportedCommands.put("exit", new ExitCommand());
         supportedCommands.put("echo", new EchoCommand());
-        supportedCommands.put("type", new TypeCommand(supportedCommands));
+        supportedCommands.put("type", new TypeCommand(supportedCommands, pathDirectories));
+
+        System.out.println("PATH: " + path);
 
         while(true){
             ParsedCommand command = readCommand();
