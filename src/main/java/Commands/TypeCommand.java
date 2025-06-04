@@ -9,14 +9,14 @@ import java.util.Map;
 
 public class TypeCommand implements Command {
     private Map<String, Command> commands;
-    List<String> pathDirectories;
+    private List<String> pathDirectories;
     public TypeCommand(Map<String, Command> supportedCommands) {
         commands = supportedCommands;
     }
 
     public TypeCommand(Map<String, Command> supportedCommands, List<String> pathDirectories) {
         commands = supportedCommands;
-        pathDirectories = pathDirectories;
+        this.pathDirectories = pathDirectories;
     }
 
     @Override
@@ -35,7 +35,7 @@ public class TypeCommand implements Command {
     private boolean checkInPath(String command) {
         List<String> commandLocations = new ArrayList<>();
 
-        for (String dir : pathDirectories) {
+        for (String dir : this.pathDirectories) {
             File lsFile = new File(dir, command); // Check for "ls" in this directory
             if (lsFile.exists() && lsFile.canExecute()) {
                 commandLocations.add(lsFile.getAbsolutePath());
