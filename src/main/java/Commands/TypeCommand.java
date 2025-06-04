@@ -2,20 +2,18 @@ package Commands;
 
 import Parser.ParsedCommand;
 import utils.CommandUtils;
-
-import java.io.File;
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class TypeCommand implements Command {
     private Map<String, Command> commands;
     private List<String> pathDirectories;
-    public TypeCommand(Map<String, Command> supportedCommands) {
-        commands = supportedCommands;
-    }
 
-    public TypeCommand(Map<String, Command> supportedCommands, List<String> pathDirectories) {
+    public TypeCommand(Map<String, Command> supportedCommands) {
+        String path = System.getenv("PATH");
+        List<String> pathDirectories = Arrays.stream(path.split(":")).collect(Collectors.toList());
         commands = supportedCommands;
         this.pathDirectories = pathDirectories;
     }
