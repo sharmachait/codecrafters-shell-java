@@ -2,6 +2,7 @@ import Commands.*;
 import Parser.ParsedCommand;
 import utils.CommandUtils;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -47,8 +48,14 @@ public class Main {
         }
         String executablePath = commandLocations.get(0);
         String[] arguments = command.args;
-        ProcessBuilder processBuilder = new ProcessBuilder(executablePath);
-        processBuilder.command().addAll(Arrays.asList(arguments)); // Add arguments
+        File executable = new File(executablePath);
+        if(!executable.exists() || !executable.canExecute()){
+            System.out.println(executablePath + " is not executable");
+            return 1;
+        }
+        String processName = executable.getName();
+        ProcessBuilder processBuilder = new ProcessBuilder(processName);
+        processBuilder.command().addAll(Arrays.asList(arguments));
 
 
         processBuilder.redirectOutput(ProcessBuilder.Redirect.INHERIT);
