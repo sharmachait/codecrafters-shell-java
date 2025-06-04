@@ -1,17 +1,38 @@
+import Commands.Command;
+import Commands.ExitCommand;
+
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 
 public class Main {
+    private static Map<String, Command> supportedCommands;
     public static void main(String[] args) throws Exception {
+        supportedCommands = new HashMap<>();
+        supportedCommands.put("exit", new ExitCommand());
+
         while(true){
-            handleCommand();
+            ParsedCommand command = readCommand();
+            handleCommand(command);
+            System.out.println(command.command + ": command not found");
         }
     }
-    public static void handleCommand(){
+
+    private static void handleCommand(ParsedCommand command) {
+        if(supportedCommands.containsKey(command.command)){
+            supportedCommands.get(command.command).execute(command.args);
+        }
+    }
+
+    public static ParsedCommand readCommand(){
         System.out.print("$ ");
-
         Scanner scanner = new Scanner(System.in);
-        String input = scanner.nextLine();
-
-        System.out.println(input + ": command not found");
+        String line = scanner.nextLine();
+        String parts[] = line.split(" ");
+        ParsedCommand parsedCommand = new ParsedCommand();
+        parsedCommand.command = parts[0];
+        parsedCommand.args = Arrays.copyOfRange(parts, 1, parts.length);
+        return parsedCommand;
     }
 }
