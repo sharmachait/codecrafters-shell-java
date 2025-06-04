@@ -9,7 +9,7 @@ public class EchoCommand implements Command {
         if(parsedCommand.args.length == 0){
             System.out.println();
         }else{
-            System.out.println(String.join("", parsedCommand.args));
+            System.out.println(String.join(" ", parsedCommand.args));
         }
     }
 

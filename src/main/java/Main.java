@@ -95,35 +95,43 @@ public class Main {
         parsedCommand.command = line.substring(0, spaceIndex);
 
         int i = spaceIndex + 1;
-        while(i<line.length()){
+        while(i < line.length()){
             //skip all whitespaces
             while(i < line.length() && line.charAt(i) == ' ') {
                 i++;
             }
             if(i >= line.length()) break;
 
+            // Build a complete argument (may consist of multiple parts)
+            StringBuilder argumentBuilder = new StringBuilder();
 
-            char curr = line.charAt(i);
-            if(curr == '\''){
-                i++;
-                StringBuilder sb = new StringBuilder();
-                while(i < line.length() && line.charAt(i) != '\'') {
-                    sb.append(line.charAt(i));
-                    i++;
+            // Keep parsing until we hit a space or end of line
+            while(i < line.length() && line.charAt(i) != ' ') {
+                char curr = line.charAt(i);
+                if(curr == '\'') {
+                    // Parse quoted string
+                    i++; // Skip opening quote
+                    while(i < line.length() && line.charAt(i) != '\'') {
+                        argumentBuilder.append(line.charAt(i));
+                        i++;
+                    }
+                    if(i < line.length()) {
+                        i++; // Skip closing quote
+                    }
+                } else {
+                    // Parse unquoted characters until space or quote
+                    while(i < line.length() && line.charAt(i) != ' ' && line.charAt(i) != '\'') {
+                        argumentBuilder.append(line.charAt(i));
+                        i++;
+                    }
                 }
-                if(i < line.length()) {
-                    i++;
-                }
-                arguments.add(sb.toString());
-            }else{
-                StringBuilder sb = new StringBuilder();
-                while(i < line.length() && line.charAt(i) != ' ') {
-                    sb.append(line.charAt(i));
-                    i++;
-                }
-                arguments.add(sb.toString());
             }
+
+            arguments.add(argumentBuilder.toString());
         }
+        System.out.println("=========================================================================");
+        System.out.println(arguments);
+        System.out.println("=========================================================================");
         parsedCommand.args = arguments.toArray(new String[arguments.size()]);
         return parsedCommand;
     }
