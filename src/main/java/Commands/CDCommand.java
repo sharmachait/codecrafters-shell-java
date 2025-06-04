@@ -11,12 +11,12 @@ public class CDCommand implements Command {
             System.out.println("cd: too many arguments");
             return ;
         }else if(parsedCommand.args.length == 0){
-            System.setProperty("user.dir", System.getProperty("user.home"));
+            System.setProperty("user.dir", getHomeDirectory());
             return ;
         }
         String targetPath = parsedCommand.args[0];
         if(targetPath.equals("~") || targetPath.startsWith("~/")) {
-            targetPath = targetPath.replace("~", System.getProperty("user.home"));
+            targetPath = targetPath.replace("~", getHomeDirectory());
         }
 
         File targetDir = new File(targetPath);
@@ -50,5 +50,15 @@ public class CDCommand implements Command {
     @Override
     public void type() {
         System.out.println("cd is a shell builtin");
+    }
+
+    private String getHomeDirectory() {
+
+        String homeFromEnv = System.getenv("HOME");
+        if (homeFromEnv != null && !homeFromEnv.isEmpty()) {
+            return homeFromEnv;
+        }
+
+        return System.getProperty("user.home");
     }
 }
