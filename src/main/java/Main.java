@@ -1,7 +1,5 @@
-import Commands.Command;
-import Commands.EchoCommand;
-import Commands.ExitCommand;
-import Commands.ParsedCommand;
+import Commands.*;
+import Parser.ParsedCommand;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -14,6 +12,7 @@ public class Main {
         supportedCommands = new HashMap<>();
         supportedCommands.put("exit", new ExitCommand());
         supportedCommands.put("echo", new EchoCommand());
+        supportedCommands.put("type", new TypeCommand(supportedCommands));
 
         while(true){
             ParsedCommand command = readCommand();

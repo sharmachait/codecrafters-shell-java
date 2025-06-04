@@ -1,4 +1,4 @@
-package Commands;
+package Parser;
 
 public class ParsedCommand {
     public String command;
