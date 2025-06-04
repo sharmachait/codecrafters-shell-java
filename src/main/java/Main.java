@@ -17,6 +17,7 @@ public class Main {
         supportedCommands.put("exit", new ExitCommand());
         supportedCommands.put("echo", new EchoCommand());
         supportedCommands.put("pwd", new PWDCommand());
+        supportedCommands.put("cd", new CDCommand());
         supportedCommands.put("type", new TypeCommand(supportedCommands, pathDirectories));
 
         while(true){
