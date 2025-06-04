@@ -18,13 +18,14 @@ public class Main {
         while(true){
             ParsedCommand command = readCommand();
             handleCommand(command);
-            System.out.println(command.command + ": command not found");
         }
     }
 
     private static void handleCommand(ParsedCommand command) {
         if(supportedCommands.containsKey(command.command)){
             supportedCommands.get(command.command).execute(command);
+        }else{
+            System.out.println(command.command + ": command not found");
         }
     }
 
