@@ -14,7 +14,7 @@ public class Main {
         supportedCommands.put("echo", new EchoCommand());
         supportedCommands.put("type", new TypeCommand(supportedCommands, pathDirectories));
 
-        System.out.println("PATH: " + path);
+
 
         while(true){
             ParsedCommand command = readCommand();
