@@ -129,9 +129,9 @@ public class Main {
 
             arguments.add(argumentBuilder.toString());
         }
-        System.out.println("=========================================================================");
+
         System.out.println(arguments);
-        System.out.println("=========================================================================");
+
         parsedCommand.args = arguments.toArray(new String[arguments.size()]);
         return parsedCommand;
     }
