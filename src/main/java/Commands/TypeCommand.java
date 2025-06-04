@@ -16,7 +16,7 @@ public class TypeCommand implements Command {
             if(commands.containsKey(command)){
                 commands.get(command).type();
             }else{
-                System.out.println("-bash: type: "+command+": not found");
+                System.out.println(command+": not found");
             }
         }
     }
