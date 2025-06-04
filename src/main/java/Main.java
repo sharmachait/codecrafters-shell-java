@@ -16,6 +16,7 @@ public class Main {
         supportedCommands = new HashMap<>();
         supportedCommands.put("exit", new ExitCommand());
         supportedCommands.put("echo", new EchoCommand());
+        supportedCommands.put("pwd", new PWDCommand());
         supportedCommands.put("type", new TypeCommand(supportedCommands, pathDirectories));
 
         while(true){
