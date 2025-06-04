@@ -1,5 +1,7 @@
 import Commands.Command;
+import Commands.EchoCommand;
 import Commands.ExitCommand;
+import Commands.ParsedCommand;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -11,6 +13,7 @@ public class Main {
     public static void main(String[] args) throws Exception {
         supportedCommands = new HashMap<>();
         supportedCommands.put("exit", new ExitCommand());
+        supportedCommands.put("echo", new EchoCommand());
 
         while(true){
             ParsedCommand command = readCommand();
@@ -21,7 +24,7 @@ public class Main {
 
     private static void handleCommand(ParsedCommand command) {
         if(supportedCommands.containsKey(command.command)){
-            supportedCommands.get(command.command).execute(command.args);
+            supportedCommands.get(command.command).execute(command);
         }
     }
 

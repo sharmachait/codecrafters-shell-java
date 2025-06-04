@@ -1,14 +1,10 @@
 package Commands;
 
 public class ExitCommand implements Command {
-    @Override
-    public void execute() {
-        throw new UnsupportedOperationException("Not implemented yet");
-    }
 
     @Override
-    public void execute(String[] args) {
-        StatusReport statusReport = checkArgs(args);
+    public void execute(ParsedCommand parsedCommand) {
+        StatusReport statusReport = checkArgs(parsedCommand.args);
         if (statusReport.success) {
             System.exit(statusReport.exitCode);
         }
