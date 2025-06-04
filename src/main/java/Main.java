@@ -76,10 +76,55 @@ public class Main {
         System.out.print("$ ");
         Scanner scanner = new Scanner(System.in);
         String line = scanner.nextLine();
-        String parts[] = line.split(" ");
+
+        if(line.isEmpty()) {
+            return new ParsedCommand();
+        }
+
         ParsedCommand parsedCommand = new ParsedCommand();
-        parsedCommand.command = parts[0];
-        parsedCommand.args = Arrays.copyOfRange(parts, 1, parts.length);
+        List<String> arguments = new ArrayList<>();
+
+        int spaceIndex = line.indexOf(' ');
+        if(spaceIndex == -1) {
+            // No arguments, just a command
+            parsedCommand.command = line;
+            parsedCommand.args = new String[0];
+            return parsedCommand;
+        }
+
+        parsedCommand.command = line.substring(0, spaceIndex);
+
+        int i = spaceIndex + 1;
+        while(i<line.length()){
+            //skip all whitespaces
+            while(i < line.length() && line.charAt(i) == ' ') {
+                i++;
+            }
+            if(i >= line.length()) break;
+
+
+            char curr = line.charAt(i);
+            if(curr == '\''){
+                i++;
+                StringBuilder sb = new StringBuilder();
+                while(i < line.length() && line.charAt(i) != '\'') {
+                    sb.append(line.charAt(i));
+                    i++;
+                }
+                if(i < line.length()) {
+                    i++;
+                }
+                arguments.add(sb.toString());
+            }else{
+                StringBuilder sb = new StringBuilder();
+                while(i < line.length() && line.charAt(i) != ' ') {
+                    sb.append(line.charAt(i));
+                    i++;
+                }
+                arguments.add(sb.toString());
+            }
+        }
+        parsedCommand.args = arguments.toArray(new String[arguments.size()]);
         return parsedCommand;
     }
 }
