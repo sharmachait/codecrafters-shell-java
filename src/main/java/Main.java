@@ -1,6 +1,8 @@
 import Commands.*;
 import Parser.ParsedCommand;
+import utils.CommandUtils;
 
+import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -17,16 +19,48 @@ public class Main {
 
         while(true){
             ParsedCommand command = readCommand();
-            handleCommand(command);
+            handleCommand(command, pathDirectories);
         }
     }
 
-    private static void handleCommand(ParsedCommand command) {
+    private static void handleCommand(ParsedCommand command, List<String> pathDirectories) {
         if(supportedCommands.containsKey(command.command)){
             supportedCommands.get(command.command).execute(command);
         }else{
-            System.out.println(command.command + ": command not found");
+            List<String> commandLocations = CommandUtils.checkCommandInPaths(command.command, pathDirectories);
+            if(commandLocations.isEmpty()){
+                System.out.println(command.command + ": command not found");
+            }else{
+                try{
+                    runExecutable(command, commandLocations);
+                } catch (IOException | InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+
         }
+    }
+
+    private static int runExecutable(ParsedCommand command, List<String> commandLocations) throws IOException, InterruptedException {
+        if(commandLocations.size() > 1){
+            System.out.println("Multiple executables found");
+        }
+        String executablePath = commandLocations.get(0);
+        String[] arguments = command.args;
+        ProcessBuilder processBuilder = new ProcessBuilder(executablePath);
+        processBuilder.command().addAll(Arrays.asList(arguments)); // Add arguments
+
+
+        processBuilder.redirectOutput(ProcessBuilder.Redirect.INHERIT);
+        processBuilder.redirectError(ProcessBuilder.Redirect.INHERIT);
+
+        Process process = processBuilder.start();
+
+
+        int exitCode = process.waitFor();
+
+        return exitCode;
+
     }
 
     public static ParsedCommand readCommand(){

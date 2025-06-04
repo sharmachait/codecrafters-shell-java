@@ -1,6 +1,7 @@
 package Commands;
 
 import Parser.ParsedCommand;
+import utils.CommandUtils;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -33,14 +34,8 @@ public class TypeCommand implements Command {
     }
 
     private boolean checkInPath(String command) {
-        List<String> commandLocations = new ArrayList<>();
 
-        for (String dir : this.pathDirectories) {
-            File lsFile = new File(dir, command); // Check for "ls" in this directory
-            if (lsFile.exists() && lsFile.canExecute()) {
-                commandLocations.add(lsFile.getAbsolutePath());
-            }
-        }
+        List<String> commandLocations = CommandUtils.checkCommandInPaths(command, pathDirectories);
 
         if (!commandLocations.isEmpty()) {
             for (String location : commandLocations) {
