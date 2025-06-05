@@ -9,10 +9,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class CatCommand implements Command {
+
     @Override
     public void execute(ParsedCommand parsedCommand) {
-//        List<String> args = Arrays.stream(parsedCommand.args).collect(Collectors.toList());
-//        System.out.println(args);
         for (String path : parsedCommand.args) {
             try {
                 File file = CommandUtils.resolvePath(path);
@@ -36,6 +35,12 @@ public class CatCommand implements Command {
 
     @Override
     public void type() {
-        System.out.println("cat is a shell builtin");
+        List<String> paths = CommandUtils.getPaths();
+        paths = CommandUtils.checkCommandInPaths("cat", paths);
+        if(paths.isEmpty()) {
+            System.out.println("cat: No such file or directory");
+            return;
+        }
+        System.out.println("cat is "+paths.getFirst());
     }
 }

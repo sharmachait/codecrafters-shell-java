@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class CommandUtils {
     public static List<String> checkCommandInPaths(String command, List<String> paths) {
@@ -39,5 +40,9 @@ public class CommandUtils {
             }
         }
         return content.toString();
+    }
+    public static List<String> getPaths(){
+        String path = System.getenv("PATH");
+        return Arrays.stream(path.split(":")).collect(Collectors.toList());
     }
 }
