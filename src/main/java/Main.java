@@ -3,9 +3,8 @@ import server.ShellServer;
 import java.util.*;
 
 public class Main {
-    private static Map<String, Command> supportedCommands;
     public static void main(String[] args) throws Exception {
-        supportedCommands = new HashMap<>();
+        Map<String, Command> supportedCommands = new HashMap<>();
         supportedCommands.put("exit", new ExitCommand());
         supportedCommands.put("echo", new EchoCommand());
         supportedCommands.put("pwd", new PWDCommand());

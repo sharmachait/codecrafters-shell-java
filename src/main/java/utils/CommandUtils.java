@@ -1,6 +1,8 @@
 package utils;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.*;
 
 public class CommandUtils {
@@ -15,5 +17,27 @@ public class CommandUtils {
         }
 
         return commandLocations;
+    }
+    public static File resolvePath(String path) throws IOException {
+        File targetDir = new File(path);
+
+        if(!targetDir.isAbsolute()) {
+            // if starting with . then its relative
+            targetDir = new File(System.getProperty("user.dir"), path);
+        }
+
+        targetDir = targetDir.getCanonicalFile();
+
+        return targetDir;
+    }
+
+    public static String readFileContent(File file) throws FileNotFoundException {
+        StringBuilder content = new StringBuilder();
+        try (Scanner scanner = new Scanner(file)) {
+            while (scanner.hasNextLine()) {
+                content.append(scanner.nextLine()).append(System.lineSeparator());
+            }
+        }
+        return content.toString();
     }
 }

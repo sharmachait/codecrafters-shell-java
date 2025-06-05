@@ -1,6 +1,7 @@
 package Commands;
 
 import Parser.ParsedCommand;
+import utils.CommandUtils;
 
 import java.io.File;
 
@@ -19,15 +20,9 @@ public class CDCommand implements Command {
             targetPath = targetPath.replace("~", getHomeDirectory());
         }
 
-        File targetDir = new File(targetPath);
-
-        if(!targetDir.isAbsolute()) {
-            // if starting with . then its relative
-            targetDir = new File(System.getProperty("user.dir"), targetPath);
-        }
         try {
             // Normalize the path (resolve .. and . references)
-            targetDir = targetDir.getCanonicalFile();
+            File targetDir = CommandUtils.resolvePath(targetPath);
 
             if(!targetDir.exists()) {
                 System.out.println("cd: " + parsedCommand.args[0] + ": No such file or directory");
