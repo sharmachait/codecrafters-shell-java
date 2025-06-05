@@ -3,7 +3,7 @@ import server.ShellServer;
 import java.util.*;
 
 public class Main {
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) {
         Map<String, Command> supportedCommands = new HashMap<>();
         supportedCommands.put("exit", new ExitCommand());
         supportedCommands.put("echo", new EchoCommand());

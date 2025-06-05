@@ -2,11 +2,8 @@ package Commands;
 
 import Parser.ParsedCommand;
 import utils.CommandUtils;
-
 import java.io.File;
-import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class CatCommand implements Command {
 
@@ -35,8 +32,8 @@ public class CatCommand implements Command {
 
     @Override
     public void type() {
-        List<String> paths = CommandUtils.getPaths();
-        paths = CommandUtils.checkCommandInPaths("cat", paths);
+
+        List<String> paths = CommandUtils.checkCommandInPaths("cat");
         if(paths.isEmpty()) {
             System.out.println("cat: No such file or directory");
             return;

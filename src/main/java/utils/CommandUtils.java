@@ -7,7 +7,8 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class CommandUtils {
-    public static List<String> checkCommandInPaths(String command, List<String> paths) {
+    public static List<String> checkCommandInPaths(String command) {
+        List<String> paths  = getPaths();
         List<String> commandLocations = new ArrayList<>();
 
         for (String dir : paths) {

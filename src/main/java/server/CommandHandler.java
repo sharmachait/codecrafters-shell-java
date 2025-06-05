@@ -3,7 +3,6 @@ package server;
 import Commands.Command;
 import Parser.ParsedCommand;
 import utils.CommandUtils;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
@@ -12,12 +11,11 @@ import java.util.Map;
 
 public class CommandHandler {
     public static void handleCommand(ParsedCommand command,
-                                      List<String> pathDirectories,
                                       Map<String, Command> supportedCommands) {
         if(supportedCommands.containsKey(command.command)){
             supportedCommands.get(command.command).execute(command);
         }else{
-            List<String> commandLocations = CommandUtils.checkCommandInPaths(command.command, pathDirectories);
+            List<String> commandLocations = CommandUtils.checkCommandInPaths(command.command);
             if(commandLocations.isEmpty()){
                 System.out.println(command.command + ": command not found");
             }else{
@@ -37,7 +35,7 @@ public class CommandHandler {
         if(commandLocations.size() > 1){
             System.out.println("Multiple executables found");
         }
-        String executablePath = commandLocations.get(0);
+        String executablePath = commandLocations.getFirst();
         String[] arguments = command.args;
         File executable = new File(executablePath);
         if(!executable.exists() || !executable.canExecute()){
@@ -55,9 +53,7 @@ public class CommandHandler {
         Process process = processBuilder.start();
 
 
-        int exitCode = process.waitFor();
-
-        return exitCode;
+        return process.waitFor();
 
     }
 }

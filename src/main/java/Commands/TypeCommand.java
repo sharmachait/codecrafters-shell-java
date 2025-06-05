@@ -2,20 +2,14 @@ package Commands;
 
 import Parser.ParsedCommand;
 import utils.CommandUtils;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 public class TypeCommand implements Command {
     private Map<String, Command> commands;
-    private List<String> pathDirectories;
 
     public TypeCommand(Map<String, Command> supportedCommands) {
-        String path = System.getenv("PATH");
-        List<String> pathDirectories = Arrays.stream(path.split(":")).collect(Collectors.toList());
         commands = supportedCommands;
-        this.pathDirectories = pathDirectories;
     }
 
     @Override
@@ -31,9 +25,14 @@ public class TypeCommand implements Command {
         }
     }
 
+    @Override
+    public void type() {
+        System.out.println("type is a shell builtin");
+    }
+
     private boolean checkInPath(String command) {
 
-        List<String> commandLocations = CommandUtils.checkCommandInPaths(command, pathDirectories);
+        List<String> commandLocations = CommandUtils.checkCommandInPaths(command);
 
         if (!commandLocations.isEmpty()) {
             for (String location : commandLocations) {
@@ -43,10 +42,5 @@ public class TypeCommand implements Command {
         } else {
             return false;
         }
-    }
-
-    @Override
-    public void type() {
-        System.out.println("type is a shell builtin");
     }
 }
