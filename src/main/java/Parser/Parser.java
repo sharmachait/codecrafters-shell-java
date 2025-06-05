@@ -59,7 +59,7 @@ public class Parser {
             arguments.add(argumentBuilder.toString());
         }
 
-        System.out.println(arguments);
+//        System.out.println(arguments);
 
         parsedCommand.args = arguments.toArray(new String[arguments.size()]);
         return parsedCommand;
