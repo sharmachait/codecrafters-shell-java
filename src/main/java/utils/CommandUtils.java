@@ -35,7 +35,7 @@ public class CommandUtils {
         StringBuilder content = new StringBuilder();
         try (Scanner scanner = new Scanner(file)) {
             while (scanner.hasNextLine()) {
-                content.append(scanner.nextLine()).append(System.lineSeparator());
+                content.append(scanner.nextLine());
             }
         }
         return content.toString();
