@@ -31,6 +31,7 @@ public class CatCommand implements Command {
                 System.out.println("cat: " + path + ": " + e.getMessage());
             }
         }
+        System.out.println();
     }
 
     @Override
