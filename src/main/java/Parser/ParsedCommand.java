@@ -8,7 +8,9 @@ public class ParsedCommand {
     public static final Set<Character> quoteSymbols = Set.of('\'', '"', '`');
     public String command;
     public List<String> args;
-    public ParsedCommand() {}
+    public ParsedCommand() {
+        args = new ArrayList<>();
+    }
     public ParsedCommand(String cmdName) {
         command = cmdName;
         args = new ArrayList<>();
