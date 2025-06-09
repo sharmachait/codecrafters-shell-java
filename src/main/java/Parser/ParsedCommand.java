@@ -78,6 +78,8 @@ public class ParsedCommand {
                 }
             }
         }
+        System.out.println(cmd.command);
+        System.out.println(cmd.args);
         return cmd;
     }
 }
