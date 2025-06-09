@@ -26,7 +26,7 @@ public class ParsedCommand {
             char c = input.charAt(i);
             if(c == ' '){
                 if(cmd == null && !sb.isEmpty()){
-                    cmd = new ParsedCommand();
+                    cmd = new ParsedCommand(sb.toString());
                     sb.delete(0, sb.length());
                 }
             } else if(cmd != null){
