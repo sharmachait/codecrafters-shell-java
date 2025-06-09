@@ -78,9 +78,29 @@ public class ParsedCommand {
                 }
             }
         }
+        cmd.args = getSanitizedStrings(cmd);
 //        System.out.println("========================================");
 //        System.out.println(cmd.command);
 //        System.out.println(cmd.args);
         return cmd;
+    }
+
+    private static List<String> getSanitizedStrings(ParsedCommand cmd) {
+        List<String> args = new ArrayList<>();
+        for(String arg : cmd.args) {
+            if(arg.isEmpty()){
+                args.add(arg);
+            }
+            if(arg.length() > 1){
+                char first = arg.charAt(0);
+                char last = arg.charAt(arg.length() - 1);
+                if(first == last && quoteSymbols.contains(first)){
+                    args.add(arg.substring(1, arg.length() - 1));
+                }else{
+                    args.add(arg);
+                }
+            }
+        }
+        return args;
     }
 }
