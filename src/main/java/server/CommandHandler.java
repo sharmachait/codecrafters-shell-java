@@ -5,7 +5,6 @@ import Parser.ParsedCommand;
 import utils.CommandUtils;
 import java.io.File;
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -36,7 +35,7 @@ public class CommandHandler {
             System.out.println("Multiple executables found");
         }
         String executablePath = commandLocations.getFirst();
-        String[] arguments = command.args;
+        List<String> arguments = command.args;
         File executable = new File(executablePath);
         if(!executable.exists() || !executable.canExecute()){
             System.out.println(executablePath + " is not executable");
@@ -44,7 +43,7 @@ public class CommandHandler {
         }
         String processName = executable.getName();
         ProcessBuilder processBuilder = new ProcessBuilder(processName);
-        processBuilder.command().addAll(Arrays.asList(arguments));
+        processBuilder.command().addAll(arguments);
 
 
         processBuilder.redirectOutput(ProcessBuilder.Redirect.INHERIT);

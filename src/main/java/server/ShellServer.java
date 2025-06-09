@@ -11,7 +11,7 @@ public class ShellServer {
             System.out.print("$ ");
             Scanner scanner = new Scanner(System.in);
             String line = scanner.nextLine();
-            ParsedCommand command = Parser.readCommand(line);
+            ParsedCommand command = ParsedCommand.fromInput(line);
             CommandHandler.handleCommand(command, supportedCommands);
         }
     }

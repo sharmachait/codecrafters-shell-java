@@ -8,14 +8,14 @@ import java.io.File;
 public class CDCommand implements Command {
     @Override
     public void execute(ParsedCommand parsedCommand) {
-        if(parsedCommand.args.length > 1){
+        if(parsedCommand.args.size() > 1){
             System.out.println("cd: too many arguments");
             return ;
-        }else if(parsedCommand.args.length == 0){
+        }else if(parsedCommand.args.isEmpty()){
             System.setProperty("user.dir", getHomeDirectory());
             return ;
         }
-        String targetPath = parsedCommand.args[0];
+        String targetPath = parsedCommand.args.getFirst();
         if(targetPath.equals("~") || targetPath.startsWith("~/")) {
             targetPath = targetPath.replace("~", getHomeDirectory());
         }
@@ -25,12 +25,12 @@ public class CDCommand implements Command {
             File targetDir = CommandUtils.resolvePath(targetPath);
 
             if(!targetDir.exists()) {
-                System.out.println("cd: " + parsedCommand.args[0] + ": No such file or directory");
+                System.out.println("cd: " + parsedCommand.args.getFirst() + ": No such file or directory");
                 return;
             }
 
             if(!targetDir.isDirectory()) {
-                System.out.println("cd: " + parsedCommand.args[0] + ": Not a directory");
+                System.out.println("cd: " + parsedCommand.args.getFirst() + ": Not a directory");
                 return;
             }
 
@@ -38,7 +38,7 @@ public class CDCommand implements Command {
             System.setProperty("user.dir", targetDir.getAbsolutePath());
 
         } catch(Exception e) {
-            System.out.println("cd: " + parsedCommand.args[0] + ": " + e.getMessage());
+            System.out.println("cd: " + parsedCommand.args.getFirst() + ": " + e.getMessage());
         }
     }
 

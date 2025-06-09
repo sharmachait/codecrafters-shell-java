@@ -13,5 +13,6 @@ public class Main {
         supportedCommands.put("type", new TypeCommand(supportedCommands));
 
         ShellServer.start(supportedCommands);
+
     }
 }

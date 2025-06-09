@@ -17,7 +17,7 @@ public class Parser {
         if(spaceIndex == -1) {
             // No arguments, just a command
             parsedCommand.command = line;
-            parsedCommand.args = new String[0];
+            parsedCommand.args = new ArrayList<>();
             return parsedCommand;
         }
 
@@ -61,7 +61,7 @@ public class Parser {
 
 //        System.out.println(arguments);
 
-        parsedCommand.args = arguments.toArray(new String[arguments.size()]);
+        parsedCommand.args = arguments;
         return parsedCommand;
     }
 }

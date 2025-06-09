@@ -2,6 +2,8 @@ package Commands;
 
 import Parser.ParsedCommand;
 
+import java.util.List;
+
 public class ExitCommand implements Command {
 
     @Override
@@ -17,21 +19,21 @@ public class ExitCommand implements Command {
         System.out.println("exit is a shell builtin");
     }
 
-    private StatusReport checkArgs(String[] args) {
+    private StatusReport checkArgs(List<String> args) {
         StatusReport statusReport = new StatusReport();
         statusReport.success=false;
         statusReport.exitCode=1;
 
-        if(args.length == 0) {
+        if(args.isEmpty()) {
             statusReport.exitCode=0;
             statusReport.success=true;
             return statusReport;
-        } else if (args.length > 1) {
+        } else if (args.size() > 1) {
             System.out.println("-bash: exit: too many arguments");
             return statusReport;
         } else{
             statusReport.success=true;
-            String statusCode = args[0];
+            String statusCode = args.getFirst();
             try{
                 statusReport.exitCode = Integer.parseInt(statusCode);
             }catch (NumberFormatException e) {
