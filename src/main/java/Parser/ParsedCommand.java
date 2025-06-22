@@ -1,106 +1,19 @@
 package Parser;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
 public class ParsedCommand {
-    public static final Set<Character> quoteSymbols = Set.of('\'', '"', '`');
     public String command;
     public List<String> args;
-    public ParsedCommand() {
-        args = new ArrayList<>();
-    }
-    public ParsedCommand(String cmdName) {
-        command = cmdName;
-        args = new ArrayList<>();
-    }
-    public static ParsedCommand fromInput(String input) {
-        if (input.isEmpty()) {
-            return null;
-        }
-        ParsedCommand cmd = null;
-        StringBuilder sb = new StringBuilder();
-        int i;
-        for(i=0; i<input.length(); i++) {
-            char c = input.charAt(i);
-            if(c == ' '){
-                if(cmd == null && !sb.isEmpty()){
-                    cmd = new ParsedCommand(sb.toString());
-                    sb.delete(0, sb.length());
-                }
-            } else if(cmd != null){
-                break;
-            } else {
-                sb.append(c);
-            }
-        }
 
-        if(!sb.isEmpty()){
-            cmd = new ParsedCommand(sb.toString());
-            sb.delete(0, sb.length());
-        } else if (cmd == null) {
-            return null;
-        }
-
-        char quoteChar = '\0';
-        boolean isSpace = false;
-        for (; i < input.length(); i++) {
-            char c = input.charAt(i);
-            if (c == ' ') {
-                if (quoteChar != '\0') {
-                    sb.append(c);
-                } else if (!isSpace) {
-                    isSpace = true;
-                    if (!sb.isEmpty()) {
-                        cmd.args.add(sb.toString());
-                        sb.delete(0, sb.length());
-                    }
-                }
-            }else {
-                if (isSpace) {
-                    isSpace = false;
-                    cmd.args.add(" ");
-                }
-                sb.append(c);
-                if (quoteSymbols.contains(c)) {
-                    if (quoteChar == c) {
-                        quoteChar = '\0';
-                        cmd.args.add(sb.toString());
-                        sb.delete(0, sb.length());
-                    } else if (quoteChar == '\0'){
-                        quoteChar = c;
-                        if (sb.length() > 1) {
-                            cmd.args.add(sb.substring(0, sb.length() - 1));
-                            sb.delete(0, sb.length() - 1);
-                        }
-                    }
-                }
-            }
-        }
-        cmd.args = getSanitizedStrings(cmd);
-//        System.out.println("========================================");
-//        System.out.println(cmd.command);
-//        System.out.println(cmd.args);
-        return cmd;
-    }
-
-    private static List<String> getSanitizedStrings(ParsedCommand cmd) {
-        List<String> args = new ArrayList<>();
-        for(String arg : cmd.args) {
-            if(arg.isEmpty()){
-                args.add(arg);
-            }
-            if(arg.length() > 1){
-                char first = arg.charAt(0);
-                char last = arg.charAt(arg.length() - 1);
-                if(first == last && quoteSymbols.contains(first)){
-                    args.add(arg.substring(1, arg.length() - 1));
-                }else{
-                    args.add(arg);
-                }
-            }
-        }
-        return args;
+    public static ParsedCommand fromInput(String line) {
+        ParsedCommand res = new ParsedCommand();
+        String[] parts = line.split(" ");
+        res.command = parts[0];
+        res.args = Arrays.asList(parts).subList(1, parts.length);
+        return res;
     }
 }
